@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'view_models/habit_view_model.dart';
 import 'screens/home_screen.dart';
-import 'screens/stats_screen.dart';
-import 'screens/add_habit_screen.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'DailyWin',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return ChangeNotifierProvider(
+      create: (context) => HabitViewModel(),
+      child: MaterialApp(
+        title: 'DailyWin',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const HomeScreen(),
       ),
-      home: const HomeScreen(),
-      routes: {
-        '/stats': (context) => const StatsScreen(),
-      },
     );
   }
 }

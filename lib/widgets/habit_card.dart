@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
+import '../models/habit.dart';
 
 class HabitCard extends StatelessWidget {
-  final String title;
-  final String description;
-  final int streak;
-  final bool isCompleted;
+  final Habit habit;
+  final VoidCallback onToggle;
 
   const HabitCard({
     super.key,
-    required this.title,
-    required this.description,
-    required this.streak,
-    required this.isCompleted,
+    required this.habit,
+    required this.onToggle,
   });
 
   @override
@@ -20,16 +17,21 @@ class HabitCard extends StatelessWidget {
       margin: const EdgeInsets.all(8.0),
       child: ListTile(
         leading: Checkbox(
-          value: isCompleted,
-          onChanged: null,
+          value: habit.isCompleted,
+          onChanged: (value) => onToggle(),
         ),
-        title: Text(title),
+        title: Text(
+          habit.title,
+          style: habit.isCompleted
+              ? const TextStyle(decoration: TextDecoration.lineThrough)
+              : null,
+        ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(description),
+            Text(habit.description),
             const SizedBox(height: 4),
-            Text('🔥 Дней подряд: $streak'),
+            Text('🔥 Дней подряд: ${habit.streak}'),
           ],
         ),
       ),
