@@ -1,8 +1,24 @@
 import 'package:flutter/material.dart';
 import '../widgets/habit_card.dart';
+import 'stats_screen.dart';
+import 'add_habit_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+
+  void _navigateToStats(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const StatsScreen()),
+    );
+  }
+
+  void _navigateToAddHabit(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AddHabitScreen()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +28,7 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.bar_chart),
-            onPressed: null,
+            onPressed: () => _navigateToStats(context),
           ),
         ],
       ),
@@ -39,7 +55,7 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: null,
+        onPressed: () => _navigateToAddHabit(context),
         child: const Icon(Icons.add),
       ),
     );
