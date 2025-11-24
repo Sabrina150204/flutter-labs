@@ -17,7 +17,7 @@ class HabitViewModel with ChangeNotifier {
 
   HabitViewModel() {
     loadHabits();
-    loadMotivationalQuote();
+    loadMotivationalQuote();  // ✅ ВАЖНО: загружаем цитаты при создании
   }
 
   Future<void> loadHabits() async {
@@ -59,8 +59,20 @@ class HabitViewModel with ChangeNotifier {
   }
 
   Future<void> loadMotivationalQuote() async {
-    _motivationalQuote = await _apiService.fetchMotivationalQuote();
-    notifyListeners();
+    print('=== LOADING MOTIVATIONAL QUOTE ===');
+    try {
+      _motivationalQuote = await _apiService.fetchMotivationalQuote();
+      print('Quote loaded: ${_motivationalQuote?['quote']}');
+      notifyListeners();
+    } catch (e) {
+      print('Error loading quote: $e');
+      // Если ошибка, устанавливаем цитату по умолчанию
+      _motivationalQuote = {
+        'quote': 'Каждый день - новая возможность стать лучше!',
+        'author': 'DailyWin',
+      };
+      notifyListeners();
+    }
   }
 
   Future<void> addHabit(String title, String description) async {
@@ -106,5 +118,24 @@ class HabitViewModel with ChangeNotifier {
       print('Habit toggled successfully');
       print('After toggle - isCompleted: ${_habits[habitIndex].isCompleted}');
     }
+  }
+
+  // Метод для принудительного обновления цитаты
+  Future<void> refreshMotivationalQuote() async {
+    await loadMotivationalQuote();
+  }
+
+  // Получение статистики (можно добавить больше методов)
+  int get completedHabitsCount {
+    return _habits.where((habit) => habit.isCompleted).length;
+  }
+
+  int get totalHabitsCount {
+    return _habits.length;
+  }
+
+  double get completionPercentage {
+    if (_habits.isEmpty) return 0.0;
+    return completedHabitsCount / totalHabitsCount * 100;
   }
 }

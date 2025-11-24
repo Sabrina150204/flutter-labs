@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 class ApiService {
   static const String _baseUrl = 'https://jsonplaceholder.typicode.com';
   
-  // Простое API для демонстрации (бесплатное и не требует ключа)
   Future<Map<String, dynamic>> fetchMotivationalQuote() async {
     try {
       final response = await http.get(Uri.parse('$_baseUrl/posts/1'));
